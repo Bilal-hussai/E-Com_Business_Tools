@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business-Tools - E-commerce Solutions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: #2d2d2d;
+            background: #f9f9f9;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            background: #fff;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: #ff5733;
+        }
+
+        .hamburger {
+            display: block;
+            font-size: 28px;
+            background: none;
+            border: none;
+            color: #ff5733;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .hamburger:hover {
+            color: #ff8f73;
+        }
+
+        nav {
+            position: relative;
+        }
+
+        nav ul {
+            position: fixed;
+            top: 0;
+            right: -250px;
+            width: 250px;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.95);
+            flex-direction: column;
+            gap: 25px;
+            padding: 60px 20px 20px;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            transition: right 0.3s ease-in-out;
+            z-index: 1000;
+            list-style: none;
+        }
+
+        nav ul.active {
+            right: 0;
+        }
+
+        nav ul li {
+            text-align: center;
+        }
+
+        nav ul li a {
+            font-size: 18px;
+            display: block;
+            padding: 12px;
+            color: #444;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            background: #fce3cd;
+            color: #ff5733;
+        }
+
+        .close-btn {
+            display: none;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            background: none;
+            border: none;
+            color: #ff5733;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            z-index: 1001;
+        }
+
+        .close-btn:hover {
+            color: #ff8f73;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #ff5733, #ff8f73);
+            color: white;
+            padding: 60px 15px;
+            text-align: center;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .hero h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto 20px;
+        }
+
+        .hero-btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background: #fff;
+            color: #ff5733;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 25px;
+            font-size: 16px;
+            transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
+        }
+
+        .hero-btn:hover {
+            transform: scale(1.05);
+            background: #ff5733;
+            color: #fff;
+        }
+
+        /* Tools Section */
+        .tools-section {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 15px;
+            text-align: center;
+        }
+
+        .tools-section h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #ff5733;
+            margin-bottom: 30px;
+            animation: slideUp 0.5s ease-in;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .tool-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+            cursor: pointer;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            background: #ffb787;
+        }
+
+        .tool-card h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2d2d2d;
+            margin-bottom: 10px;
+        }
+
+        .tool-card p {
+            font-size: 14px;
+            color: #555;
+        }
+
+        /* Modals (Profit and Percentage Calculators) */
+        .calculator-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .calculator-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out;
+            backdrop-filter: blur(10px);
+            box-sizing: border-box;
+            position: relative;
+            margin: 15px;
+            transition: 0.3s;
+        }
+
+        .calculator-container h3 {
+            color: black;
+            font-size: 22px;
+        }
+
+        .calculator-container p {
+            font-size: 14px;
+            color: black;
+            margin-bottom: 15px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+            justify-content: center;
+        }
+
+        .calculator-container input {
+            width: 45%;
+            padding: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.2);
+            color: black;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: 0.3s ease-in-out;
+            box-sizing: border-box;
+        }
+
+        .calculator-container input:focus {
+            outline: none;
+            border-color: #fc7500;
+            box-shadow: 0 0 10px rgba(252, 117, 0, 0.8);
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .calculator-container button {
+            width: 45%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: 0.3s;
+            box-sizing: border-box;
+        }
+
+        .calculate-btn {
+            background: #fc7500;
+            color: white;
+        }
+
+        .calculate-btn:hover {
+            background: #e96900;
+            transform: scale(1.05);
+        }
+
+        .reset-btn {
+            background: #f92814;
+            color: white;
+        }
+
+        .reset-btn:hover {
+            background: #e65b45;
+            transform: scale(1.05);
+        }
+
+        #result, #percentageResult {
+            margin-top: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            color: black;
+            display: none; /* Hidden by default */
+        }
+
+        .author {
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            color: black;
+            margin-top: 5px;
+        }
+
+        .close-calculator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            background: none;
+            border: none;
+            color: #ff5733;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-calculator:hover {
+            color: #ff8f73;
+        }
+
+        .calculator-container:focus-within {
+            box-shadow: 0 0 20px rgba(252, 117, 0, 0.8);
+        }
+
+        /* Footer */
+        footer {
+            background: transparent;
+            color: #2d2d2d;
+            padding: 40px 0 15px;
+            position: relative;
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            padding: 0 15px;
+        }
+
+        .footer-section {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .footer-section:hover {
+            transform: translateY(-5px);
+            background: #fce3cd;
+        }
+
+        .footer-section h3 {
+            font-size: 20px;
+            color: #ff5733;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .footer-section p, .footer-section ul li a {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin: 10px 0;
+        }
+
+        .footer-section a {
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #ff5733;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding: 15px;
+            font-size: 12px;
+            color: #555;
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+            margin-top: 20px;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Desktop Adjustments */
+        @media (min-width: 769px) {
+            .hamburger {
+                display: none;
+            }
+
+            nav ul {
+                position: static;
+                width: auto;
+                height: auto;
+                background: none;
+                flex-direction: row;
+                padding: 0;
+                box-shadow: none;
+                display: flex;
+            }
+
+            nav ul li a {
+                font-size: 16px;
+                padding: 0;
+            }
+
+            .close-btn {
+                display: none;
+            }
+
+            .header-container {
+                padding: 0 20px;
+            }
+
+            .logo {
+                font-size: 24px;
+            }
+
+            .hero {
+                padding: 80px 20px;
+            }
+
+            .hero h1 {
+                font-size: 48px;
+            }
+
+            .hero p {
+                font-size: 20px;
+            }
+
+            .hero-btn {
+                padding: 12px 30px;
+            }
+
+            .tools-section {
+                margin: 60px auto;
+                padding: 0 20px;
+            }
+
+            .tools-section h2 {
+                font-size: 36px;
+            }
+
+            .tools-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 30px;
+            }
+
+            .tool-card h3 {
+                font-size: 22px;
+            }
+
+            .tool-card p {
+                font-size: 15px;
+            }
+
+            .footer-container {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 30px;
+                padding: 0 20px;
+            }
+
+            .footer-section {
+                padding: 20px;
+            }
+
+            .footer-section h3 {
+                font-size: 22px;
+            }
+
+            .footer-section p, .footer-section ul li a {
+                font-size: 15px;
+            }
+
+            .footer-bottom {
+                font-size: 13px;
+                padding: 20px;
+                margin-top: 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 20px;
+            }
+
+            .hamburger {
+                font-size: 24px;
+            }
+
+            nav ul {
+                width: 200px;
+                right: -200px;
+            }
+
+            nav ul li a {
+                font-size: 16px;
+            }
+
+            .close-btn {
+                font-size: 20px;
+                top: 10px;
+                right: 10px;
+            }
+
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .hero p {
+                font-size: 14px;
+            }
+
+            .hero-btn {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+
+            .tools-section h2 {
+                font-size: 24px;
+            }
+
+            .tool-card h3 {
+                font-size: 18px;
+            }
+
+            .tool-card p {
+                font-size: 13px;
+            }
+
+            .calculator-container {
+                width: 90%;
+                padding: 20px;
+            }
+
+            .input-group, .button-group {
+                flex-direction: column;
+            }
+
+            .calculator-container input, .calculator-container button {
+                width: 100%;
+                font-size: 18px;
+                padding: 12px;
+            }
+
+            .footer-section h3 {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">Business-Tools</div>
+            <button class="hamburger">☰</button>
+            <nav>
+                <button class="close-btn">✕</button>
+                <ul>
+                    <li><a href="#" onclick="window.location.reload()">Home</a></li>
+                    <li><a href="#tools-section">Tools</a></li>
+                    <li><a href="https://smarthomedeals.wuaze.com/about-us/">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Simplify Your E-commerce Success</h1>
+        <p>Discover powerful tools to streamline your dropshipping business, calculate profits, and make smarter decisions.</p>
+        <a href="#tools-section" class="hero-btn">Explore Tools</a>
+    </section>
+
+    <!-- Tools Section -->
+    <section class="tools-section" id="tools-section">
+        <h2>Our Tools</h2>
+        <div class="tools-grid">
+            <div class="tool-card" onclick="openProfitCalculator()">
+                <h3>Profit Calculator</h3>
+                <p>Easily calculate your profit margins with precision to optimize your pricing strategy.</p>
+            </div>
+            <div class="tool-card" onclick="openPercentageCalculator()">
+                <h3>Percentage Calculator</h3>
+                <p>Quickly calculate percentages to analyze discounts, markups, or growth rates.</p>
+            </div>
+            <div class="tool-card">
+                <h3>Dropshipping Analyzer</h3>
+                <p>Analyze your dropshipping performance to identify trends and boost efficiency.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Profit Calculator Modal -->
+    <div class="calculator-modal" id="profitCalculatorModal">
+        <div class="calculator-container">
+            <button class="close-calculator" onclick="closeProfitCalculator()">✕</button>
+            <h3>E-Commerce Business Profit Calculator</h3>
+            <p class="author">Created By Bilal-Hussain @2025</p>
+            <input type="number" id="costPrice" placeholder="Cost Price ($)" />
+            <input type="number" id="shippingCost" placeholder="Shipping Cost ($)" />
+            <input type="number" id="sellingPrice" placeholder="Selling Price ($)" />
+            <input type="number" id="adsSpend" placeholder="Ads Spend ($)" />
+            <input type="number" id="miscFee" placeholder="Misc Fee ($)" />
+            <button class="calculate-btn" onclick="calculateProfit()">Calculate Profit</button>
+            <button class="reset-btn" onclick="resetProfitCalculator()">Reset</button>
+            <h3 id="result"></h3>
+        </div>
+    </div>
+
+    <!-- Percentage Calculator Modal -->
+    <div class="calculator-modal" id="percentageCalculatorModal">
+        <div class="calculator-container">
+            <button class="close-calculator" onclick="closePercentageCalculator()">✕</button>
+            <h3>Percentage Calculator</h3>
+            <p>Enter a value and percentage to calculate the result.</p>
+            <div class="input-group">
+                <input type="number" id="value" placeholder="Value" />
+                <input type="number" id="percentage" placeholder="Percentage (%)" />
+            </div>
+            <div class="button-group">
+                <button class="calculate-btn" onclick="calculatePercentage()">Calculate</button>
+                <button class="reset-btn" onclick="resetPercentageCalculator()">Reset</button>
+            </div>
+            <h3 id="percentageResult"></h3>
+            <p class="author">Created By Bilal-Hussain ©2025</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section about">
+                <h3>About Us</h3>
+                <p>At smarthomedeals.wuaze.com, our mission is to provide innovative and efficient tools that simplify complex calculations. Whether you’re managing your dropshipping business, calculating profit margins, or estimating expenses, our goal is to help you make informed decisions with confidence.</p>
+            </div>
+            
+            <div class="footer-section links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#" onclick="window.location.reload()">Home</a></li>
+                    <li><a href="#tools-section">Tools</a></li>
+                    <li><a href="https://smarthomedeals.wuaze.com/about-us/">About Us</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section contact">
+                <h3>Contact Us</h3>
+                <p>bilalbeastam09@gmail.com</p>
+                <p>03283379271</p>
+                <p>Karachi City, Sindh, Pakistan</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>Crafted with Passion by Bilal Hussain | © 2025 E-commerce Helping Tools</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Menu Toggle
+        const hamburger = document.querySelector('.hamburger');
+        const closeBtn = document.querySelector('.close-btn');
+        const navUl = document.querySelector('nav ul');
+
+        closeBtn.style.display = 'none';
+
+        hamburger.addEventListener('click', () => {
+            navUl.classList.add('active');
+            closeBtn.style.display = 'block';
+        });
+
+        closeBtn.addEventListener('click', () => {
+            navUl.classList.remove('active');
+            closeBtn.style.display = 'none';
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!navUl.contains(e.target) && !hamburger.contains(e.target) && navUl.classList.contains('active')) {
+                navUl.classList.remove('active');
+                closeBtn.style.display = 'none';
+            }
+        });
+
+        // Smooth Scroll to Tools Section
+        document.querySelectorAll('a[href="#tools-section"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector('#tools-section').scrollIntoView({ behavior: 'smooth' });
+                if (navUl.classList.contains('active')) {
+                    navUl.classList.remove('active');
+                    closeBtn.style.display = 'none';
+                }
+            });
+        });
+
+        // Profit Calculator Functions
+        function openProfitCalculator() {
+            document.getElementById('profitCalculatorModal').style.display = 'flex';
+        }
+
+        function closeProfitCalculator() {
+            document.getElementById('profitCalculatorModal').style.display = 'none';
+            resetProfitCalculator();
+        }
+
+        function calculateProfit() {
+            let costPrice = parseFloat(document.getElementById('costPrice').value) || 0;
+            let shippingCost = parseFloat(document.getElementById('shippingCost').value) || 0;
+            let miscFee = parseFloat(document.getElementById('miscFee').value) || 0;
+            let sellingPrice = parseFloat(document.getElementById('sellingPrice').value) || 0;
+            let adsSpend = parseFloat(document.getElementById('adsSpend').value) || 0;
+            
+            let totalCost = costPrice + shippingCost + adsSpend + miscFee;
+            let profit = sellingPrice - totalCost;
+            let profitMargin = (sellingPrice > 0) ? (profit / sellingPrice) * 100 : 0;
+            
+            let resultElement = document.getElementById('result');
+            resultElement.innerHTML = `Profit: $${profit.toFixed(2)}<br>Profit Margin: ${profitMargin.toFixed(2)}%`;
+        }
+
+        function resetProfitCalculator() {
+            document.getElementById('costPrice').value = '';
+            document.getElementById('shippingCost').value = '';
+            document.getElementById('miscFee').value = '';
+            document.getElementById('sellingPrice').value = '';
+            document.getElementById('adsSpend').value = '';
+            document.getElementById('result').innerHTML = '';
+        }
+
+        // Percentage Calculator Functions
+        function openPercentageCalculator() {
+            document.getElementById('percentageCalculatorModal').style.display = 'flex';
+        }
+
+        function closePercentageCalculator() {
+            document.getElementById('percentageCalculatorModal').style.display = 'none';
+            resetPercentageCalculator();
+        }
+
+        function calculatePercentage() {
+            let value = parseFloat(document.getElementById('value').value);
+            let percentage = parseFloat(document.getElementById('percentage').value);
+            let resultElement = document.getElementById('percentageResult');
+
+            if (!isNaN(value) && !isNaN(percentage)) {
+                let result = (value * (percentage / 100)).toFixed(2);
+                resultElement.innerHTML = `Result: ${result}`;
+                resultElement.style.display = "block"; // Show result
+            } else {
+                resultElement.innerHTML = "Please enter both values!";
+                resultElement.style.display = "block"; // Show error message
+            }
+        }
+
+        function resetPercentageCalculator() {
+            document.getElementById('value').value = '';
+            document.getElementById('percentage').value = '';
+            document.getElementById('percentageResult').style.display = 'none'; // Hide result
+        }
+    </script>
+</body>
+</html>
